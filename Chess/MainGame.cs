@@ -10,19 +10,22 @@ namespace MonoChess
     {
         private List<Piece> _pieces { get; set; } = new List<Piece>();
 
-        private int _boardSize = 800;
         private GraphicsDeviceManager _graphicsDeviceManager;
         private Frame _board;
         private Frame _sideGutter;
         private Frame _bottomGutter;
         private SpriteBatch _spriteBatch;
 
+        private int BoardSize => 600;
+        private int SideGutterSize => (int)(BoardSize * 0.35);
+        private int GutterSize => (int)(BoardSize * 0.0375);
+
         public MainGame()
         {
             _graphicsDeviceManager = new GraphicsDeviceManager(this)
             {
-                PreferredBackBufferHeight = _boardSize + 30,
-                PreferredBackBufferWidth = _boardSize + 280
+                PreferredBackBufferHeight = BoardSize + GutterSize,
+                PreferredBackBufferWidth = BoardSize + SideGutterSize
             };
 
             Content.RootDirectory = "Content";
@@ -31,24 +34,24 @@ namespace MonoChess
 
         protected override void LoadContent()
         {
-            Engine.Instance.InitiliseEngine(_pieces, GraphicsDevice, _boardSize, _boardSize);
+            Engine.Instance.InitiliseEngine(_pieces, GraphicsDevice, BoardSize, BoardSize);
 
             _board =  new Frame
             {
                 Texture = TextureManager.GetTexture("Content/Board.png"),
-                Area = new Rectangle(0, 0, _boardSize, _boardSize)
+                Area = new Rectangle(0, 0, BoardSize, BoardSize)
             };
 
             _sideGutter = new Frame
             {
                 Texture = TextureManager.GetTexture("Content/Side-Bar.png"),
-                Area = new Rectangle(_boardSize, 0, 30, _boardSize)
+                Area = new Rectangle(BoardSize, 0, GutterSize, BoardSize)
             };
 
             _bottomGutter = new Frame
             {
                 Texture = TextureManager.GetTexture("Content/Bottom-Bar.png"),
-                Area = new Rectangle(0, _boardSize, _boardSize + 30, 30)
+                Area = new Rectangle(0, BoardSize, BoardSize + GutterSize, GutterSize)
             };
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
